@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+	{% block body %}
+		<h1 style="font-size: 400%; font-family: 'Biryani', sans-serif; font-weight: 700;"  class="text-center">David McLaughlin</h1>
+		<p style="font-size: 200%; font-family: 'Biryani', sans-serif; font-weight: 600;" class="text-center">Blog and Portfolio</p>
+			
+
+		<div class="row"></div>
+
+		<hr>
+    	{% for post in posts %}
+			<h1>{{post.title}}</h1>
+				<p>Written by {{post.author}} on {{post.create_date}}</p>
+				<div>
+					{{post.body | safe}}
+				</div>    	
+		{% endfor %}
+
+
+
+			
+	{% endblock %}

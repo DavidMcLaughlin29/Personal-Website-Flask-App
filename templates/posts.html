@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+		<div class="jumbotron">
+			<h1 class="text-center">Posts</h1>
+		</div>
+	
+    {% for post in posts %}
+      <h1> <a href="post/{{post.id}}">{{post.body}}</a></h1>
+    {% endfor %}
+  	
+{% endblock %}

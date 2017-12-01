@@ -1,0 +1,34 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Dashboard</h1>
+  <p>Welcome {{session.username}}</p>
+  <br>
+  <a class="btn btn-primary" href="/add_post"> Add Post</a>
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>Title</th>
+      <th>Category</th>
+      <th>Author</th>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for post in posts %}
+      <tr>
+        <td>{{post.title}}</td>
+        <td>{{post.category}}</td>
+        <td>{{post.author}}</td>
+        <td>{{post.create_date}}</td>
+        <td><a href="edit_post/{{post.id}}" class="btn btn-default pull-right">Edit</a></td>
+        <td>
+          <form action="{{url_for('delete_post', id=post.id)}}" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="submit" value="Delete" class="btn btn-primary">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

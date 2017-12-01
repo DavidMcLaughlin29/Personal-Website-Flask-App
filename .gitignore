@@ -1,0 +1,6 @@
+*venv
+*.pyc
+*.DS_store
+*.db
+*sql.py
+*static/
