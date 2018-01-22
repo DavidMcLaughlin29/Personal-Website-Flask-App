@@ -4,14 +4,18 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>David McLaughlin</title>
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/flatly.css') }}" media="screen">
+		<link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.2/flatly/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/flatly.css') }}" media="screen"> -->
 		<link href="https://fonts.googleapis.com/css?family=Biryani|Karla|Michroma" rel="stylesheet">
 	</head>
 	<body>
 		{% include 'includes/_navbar.html' %}
+		<br>
+		<br>
 		<div class="container">
 			{% block body %}
-			
+
 			{% endblock %}
 			{% include 'includes/_messages.html' %}
 		<hr>
@@ -22,8 +26,9 @@
     		</footer>
 		</div>
 		<br>
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>	
+		<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 		<script src="//cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
 		<script type="text/javascript">CKEDITOR.replace('editor')</script>
     </body>

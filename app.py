@@ -1,52 +1,41 @@
+import sqlite3
 from flask import Flask, render_template, flash, redirect, \
     url_for, session, logging, request, g
-from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
-from passlib.hash import sha256_crypt
+from hashlib import sha256
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-# import sqlite3
+
 
 app = Flask(__name__)
 app.secret_key = 'secret123'
-mysql = MySQL(app)
+
+DATABASE = "test.db"
 
 # SQLAlchemy Config
 # app.config['SQLALCHEMY_DATABASE_URI'] =
 
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '^6y7oaU2TkcK'
-app.config['MYSQL_DB'] = 'myflaskapp'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = '^6y7oaU2TkcK'
+# app.config['MYSQL_DB'] = 'myflaskapp'
+# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-# conn = sqlite3.connect('test.db')
-
-
-# def connect_db():
-#     return sqlite3.connect('test.db')
+# conn = sqlite3.connect(DATABASE)
 
 
-# def get_posts():
-#     '''Gets all posts from database'''
-#     conn = sqlite3.connect('test.db')
-#     cur = conn.cursor()
-#     cur.execute("SELECT * FROM posts;")
-#     posts = cur.fetchall()
-#     return posts
+def connect_db():
+    return sqlite3.connect(DATABASE)
+
 
 def get_posts():
-    '''Connects to MySQL database'''
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM posts")
-
+    '''Gets all posts from database'''
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM posts;")
     posts = cur.fetchall()
-
-    if len(posts) > 0:
-        return posts
-    msg = 'No posts Found'
-    cur.close()
+    return posts
 
 
 @app.route('/')
@@ -119,14 +108,16 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password_candidate = request.form['password']
-        conn = sqlite3.connect('test.db')
+        conn = sqlite3.connect(DATABASE)
         cur = conn.cursor()
-        result = cur.execute(
-            "SELECT * FROM users WHERE username = (?)", ('mclaughlin14',))
-        if result > 0:
-            data = cur.fetchone()
-            password = data['password']
-            if sha256_crypt.verify(password_candidate, password):
+        result = cur.execute("SELECT username, password FROM users WHERE username = (?)", (username,))
+        data = cur.fetchone()
+        if data:
+            username = data[0]
+            password = data[1]
+            hashed_candidate = sha256(password_candidate.encode()).hexdigest()
+            # return str((hashed_candidate, password))
+            if hashed_candidate == password:
                 session['logged_in'] = True
                 session['username'] = username
                 flash('You are now logged in', 'success')
@@ -163,7 +154,7 @@ def logout():
 @app.route('/dashboard')
 @is_logged_in
 def dashboard():
-    conn = sqlite3.connect('test.db')
+    conn = sqlite3.connect(DATABASE)
     cur = conn.cursor()
     result = cur.execute("SELECT * FROM posts;")
     posts = cur.fetchall()
@@ -187,7 +178,9 @@ def add_post():
         post_title = form.title.data
 
         body = form.body.data
-        cur = sqlite3.connect.cursor()
+        # cur = sqlite3.connect.cursor()
+        conn = sqlite3.connect(DATABASE)
+        cur = conn.cursor()
 
         cur.execute('INSERT INTO posts(title, body, author) VALUES(%s, %s, %s)',
                     (post_title, body, session['username']))
