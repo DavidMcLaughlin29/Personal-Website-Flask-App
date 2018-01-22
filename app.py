@@ -4,25 +4,12 @@ from flask import Flask, render_template, flash, redirect, \
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from hashlib import sha256
 from functools import wraps
-from flask_sqlalchemy import SQLAlchemy
-
 
 app = Flask(__name__)
+
 app.secret_key = 'secret123'
 
 DATABASE = "test.db"
-
-# SQLAlchemy Config
-# app.config['SQLALCHEMY_DATABASE_URI'] =
-
-
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = '^6y7oaU2TkcK'
-# app.config['MYSQL_DB'] = 'myflaskapp'
-# app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-
-# conn = sqlite3.connect(DATABASE)
 
 
 def connect_db():
@@ -52,55 +39,6 @@ def home():
 def about():
     '''Returns about.html'''
     return render_template('about.html')
-
-# Leaving this incase I want to get single posts in the future
-
-# @app.route('/post/<string:id>/')
-# def grab_post(id):
-#     '''Returns single post'''
-#     cur = mysql.connect.cursor()
-#     cur.execute("SELECT * FROM posts WHERE id = %s;", [id])
-#     post = cur.fetchone()
-#     return render_template('post.html', post=post)
-
-
-# Keeping this in case I want to add more users
-
-# class RegisterForm(Form):
-#     name = StringField('Name', [validators.Length(min=1, max=50)])
-#     username = StringField('Username', [validators.Length(min=4, max=25)])
-#     email = StringField('Email', [validators.Length(min=6, max=60)])
-#     password = PasswordField('Password', [
-#         validators.DataRequired(),
-#         validators.EqualTo('confirm', message='Passwords do not match')
-#     ])
-#     confirm = PasswordField('Confirm Password')
-
-# class ContactForm(Form):
-#     name = TextField("Name")
-#     email = TextField("Email")
-#     subject = TextField("Subject")
-#     message = TextAreaField("Message")
-#     submit = SubmitField("Send")
-
-
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-#     '''Register new user'''
-#     form = RegisterForm(request.form)
-#     if request.method == 'POST' and form.validate():
-#         name = form.name.data
-#         email = form.email.data
-#         username = form.username.data
-#         password = sha256_crypt.encrypt(str(form.password.data))
-#         cur = mysql.connect.cursor()
-#         cur.execute("INSERT INTO users(name, email, username, password) VALUES(%s, %s, %s, %s)",
-#                     (name, email, username, password))
-#         mysql.connect.commit()
-#         cur.close()
-#         flash('You are registered and can login.', 'success')
-#         return redirect(url_for('login'))
-#     return render_template('register.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

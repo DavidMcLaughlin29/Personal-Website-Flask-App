@@ -4,3 +4,4 @@
 *.db
 *sql.py
 *static/
+*DATABASE
